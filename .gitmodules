@@ -1,0 +1,3 @@
+[submodule "16-battleships"]
+	path = 16-battleships
+	url = https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2022-2023/16-battleships
