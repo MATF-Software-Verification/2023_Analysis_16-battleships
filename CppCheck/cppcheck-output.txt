@@ -1,0 +1,183 @@
+16-battleships/Server/source/server.cpp:41:5: warning:inconclusive: Either the condition 'if(soket)' is redundant or there is possible null pointer dereference: soket. [nullPointerRedundantCheck]
+    soket->flush();
+    ^
+16-battleships/Server/source/server.cpp:24:7: note: Assuming that condition 'if(soket)' is not redundant
+    if(soket) {
+      ^
+16-battleships/Server/source/server.cpp:21:56: note: Assignment 'soket=m_server->nextPendingConnection()', assigned value is 0
+    QTcpSocket* soket = m_server->nextPendingConnection();
+                                                       ^
+16-battleships/Server/source/server.cpp:41:5: note: Null pointer dereference
+    soket->flush();
+    ^
+16-battleships/Server/source/server.cpp:42:5: warning:inconclusive: Either the condition 'if(soket)' is redundant or there is possible null pointer dereference: soket. [nullPointerRedundantCheck]
+    soket->waitForBytesWritten();
+    ^
+16-battleships/Server/source/server.cpp:24:7: note: Assuming that condition 'if(soket)' is not redundant
+    if(soket) {
+      ^
+16-battleships/Server/source/server.cpp:21:56: note: Assignment 'soket=m_server->nextPendingConnection()', assigned value is 0
+    QTcpSocket* soket = m_server->nextPendingConnection();
+                                                       ^
+16-battleships/Server/source/server.cpp:42:5: note: Null pointer dereference
+    soket->waitForBytesWritten();
+    ^
+16-battleships/battleships/source/Brod.cpp:5:7: warning: Member variable 'Brod::m_postavljen' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(int broj, QPair<int, int> poc,QPair<int,int> kraj)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::pritisnuto' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::x_pos' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::y_pos' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::m_naTabli' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::m_rotiran' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning: Member variable 'Brod::m_brojBroda' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning: Member variable 'Brod::m_velicinaBroda' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:21:7: warning:inconclusive: Member variable 'Brod::m_postavljen' is not initialized in the constructor. [uninitMemberVar]
+Brod::Brod(const Brod& brod)
+      ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::pritisnuto' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::x_pos' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::y_pos' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::m_naTabli' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::m_rotiran' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning: Member variable 'Brod::m_brojBroda' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning: Member variable 'Brod::m_velicinaBroda' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:30:13: warning:inconclusive: Member variable 'Brod::m_postavljen' is not assigned a value in 'Brod::operator='. [operatorEqVarError]
+Brod& Brod::operator=(const Brod& brod){
+            ^
+16-battleships/battleships/source/Brod.cpp:25:5: performance: Variable 'm_pozPocetak' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_pozPocetak = brod.m_pozPocetak;
+    ^
+16-battleships/battleships/source/Brod.cpp:26:5: performance: Variable 'm_pozKraj' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_pozKraj = brod.m_pozKraj;
+    ^
+16-battleships/battleships/source/Singleplayer.cpp:364:17: style: Variable 'uspesan' is assigned a value that is never used. [unreadVariable]
+    bool uspesan=false;
+                ^
+16-battleships/battleships/source/Singleplayer.cpp:479:29: style: Variable 'brodovi1' is assigned a value that is never used. [unreadVariable]
+    QVector<Brod*> brodovi1 = m_tabla1->getBrodovi();
+                            ^
+16-battleships/battleships/source/Singleplayer.cpp:485:29: style: Variable 'brodovi2' is assigned a value that is never used. [unreadVariable]
+    QVector<Brod*> brodovi2 = m_tabla2->getBrodovi();
+                            ^
+16-battleships/battleships/include/Sudija.h:18:24: style:inconclusive: Technically the member function 'Sudija::DohvatiRezultate' can be const. [functionConst]
+    QMap<QString, int> DohvatiRezultate();
+                       ^
+16-battleships/battleships/source/Sudija.cpp:30:28: note: Technically the member function 'Sudija::DohvatiRezultate' can be const.
+QMap<QString, int> Sudija::DohvatiRezultate(){
+                           ^
+16-battleships/battleships/include/Sudija.h:18:24: note: Technically the member function 'Sudija::DohvatiRezultate' can be const.
+    QMap<QString, int> DohvatiRezultate();
+                       ^
+16-battleships/battleships/source/Tabla.cpp:128:13: style: The scope of the variable 'prvi' can be reduced. [variableScope]
+        int prvi, drugi, rotacija;
+            ^
+16-battleships/battleships/source/Tabla.cpp:128:19: style: The scope of the variable 'drugi' can be reduced. [variableScope]
+        int prvi, drugi, rotacija;
+                  ^
+16-battleships/battleships/source/Tabla.cpp:176:17: style: The scope of the variable 'prvi' can be reduced. [variableScope]
+            int prvi, drugi;
+                ^
+16-battleships/battleships/source/Tabla.cpp:176:23: style: The scope of the variable 'drugi' can be reduced. [variableScope]
+            int prvi, drugi;
+                      ^
+16-battleships/battleships/source/partija.cpp:390:9: style: The scope of the variable 'xposK' can be reduced. [variableScope]
+    int xposK;
+        ^
+16-battleships/battleships/source/partija.cpp:391:9: style: The scope of the variable 'yposK' can be reduced. [variableScope]
+    int yposK;
+        ^
+16-battleships/battleships/source/partija.cpp:132:29: style: Variable 'brodovi1' is assigned a value that is never used. [unreadVariable]
+    QVector<Brod*> brodovi1 = m_tabla1->getBrodovi();
+                            ^
+16-battleships/battleships/source/partija.cpp:138:29: style: Variable 'brodovi2' is assigned a value that is never used. [unreadVariable]
+    QVector<Brod*> brodovi2 = m_tabla2->getBrodovi();
+                            ^
+16-battleships/battleships/source/partija.cpp:393:7: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+    m = mine ? 6 : 4;
+      ^
+16-battleships/battleships/source/partija.cpp:404:15: style: Variable 'yposK' is assigned a value that is never used. [unreadVariable]
+        yposK = yposK * KVADRAT;
+              ^
+16-battleships/battleships/source/partija.cpp:412:19: style: Variable 'xposK' is assigned a value that is never used. [unreadVariable]
+            xposK = xposK + KVADRAT;
+                  ^
+16-battleships/battleships/source/Brod.cpp:44:0: style: The function 'getId' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Singleplayer.cpp:41:0: style: The function 'getMine' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Brod.cpp:183:0: style: The function 'mouseDoubleClickEvent' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Singleplayer.cpp:447:0: style: The function 'on_pushButtonMine_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:77:0: style: The function 'on_pushButtonMultiplayer_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:88:0: style: The function 'on_pushButtonNazad_2_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:30:0: style: The function 'on_pushButtonNazad_3_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:83:0: style: The function 'on_pushButtonNazad_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:118:0: style: The function 'on_pushButtonPovezivanje_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:66:0: style: The function 'on_pushButtonRezultati_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:72:0: style: The function 'on_pushButtonSingleplayer_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/mainwindow.cpp:96:0: style: The function 'on_pushButtonZapocniPartiju_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Singleplayer.cpp:400:0: style: The function 'on_pushButtonZapocni_clicked' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Brod.cpp:132:0: style: The function 'paint' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Brod.cpp:83:0: style: The function 'setBrojBroda' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Brod.cpp:48:0: style: The function 'setId' is never used. [unusedFunction]
+
+^
+16-battleships/battleships/source/Brod.cpp:87:0: style: The function 'setVelicinaBroda' is never used. [unusedFunction]
+
+^
