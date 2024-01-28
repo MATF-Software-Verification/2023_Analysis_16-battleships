@@ -10,6 +10,7 @@
 * Clang-Tidy
 * Clazy
 * CppCheck
+* Flawfinder
 
 
 
