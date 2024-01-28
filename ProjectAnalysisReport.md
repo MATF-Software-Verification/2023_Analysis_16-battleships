@@ -24,7 +24,7 @@ Integrisan je u okviru QtCreator-a i njegova upotreba će biti prikazana u okvir
 ![clangTidy_rezultat_defaultConfig](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Clang/Clang-Tidy/clangTidy_rezultat_defaultConfig.png "Rezultati analize.")
 
 
-***Komentar:*** 
+**Komentar:**
 Analiza je pokrenuta nad svim fajlovima i u okviru izveštaja smo dobili tri upozorenja, istog tipa u istom fajlu. Upozorenja nam govore da postoje promenljive čije se vrednosti nikada ne čitaju.
 
 
@@ -45,7 +45,7 @@ Postoji mogućnost da se ta konfiguracija modifikuje.
 ![clangTidy_rezultat_customConfig](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Clang/Clang-Tidy/clangTidy_rezultat_customConfig.png "Rezultati analize.")
 
 
-***Komentar:***
+**Komentar:**
 Analiza je pokrenuta nad svim fajlovima. Očekivano, ovde dobijamo i više različitih upozorenja. Upozorenje koje se najčešće javlja u ovom projektu i koje se nalazi na prethodnoj slici, jeste vezano za uvođenje konstanti umesto korišćenja 'magičnih' brojeva što bi povećalo čitljivost. Pored toga pojavila su se i upozorenja za kratko ime promenljive(zbog čitljivosti traži da dužina bude najmanje tri karaktera), za suvišne delove unutar klasa ili struktura(uglavnom se odnose na nepotrebna ponavljanja)...
 
 
@@ -67,7 +67,7 @@ Integrisan je u okviru QtCreator-a i njegova upotreba će biti prikazana u okvir
 ![clazy_rezultat_customConfig](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Clang/Clazy/clazy_rezultat_customConfig.png "Rezultati analize.")
 
 
-***Komentar:***
+**Komentar:**
 Analiza je pokrenuta nad svim fajlovima. Na prethodnoj slici mozemo videti dva upozorenja koja se ponavljaju u nekoliko fajlova. Jedno se odnosi na ime slota(funkcija koja reaguje na signale određenih objekata) zato sto nije konzistentno sa ostalim imenima slotova(korisiti se ime sa podvlakama umesto kamilje notacije) a konzistentnost je veoma bitna prilikom pisanja koda i ukoliko postoji i održava se, verovatnoća pravljenja greške se smanjuje. Drugo upozorenje se odnosi na vektor(preciznije QVector tip podataka) koji je inicijalizovan ali se nigde ne koristi.
 
 
@@ -78,7 +78,7 @@ Za više detalja o samom upozorenju, mozemo pristupiti dostupnoj dokumentaciji u
 
 
 
-**Zaključak:**
+***Zaključak:***
 
 Clang alati su uglavnom jako korisni alati. Ukazuju nam na različite vrste greška i njihovim ispravljanjem možemo primetno unaprediti kvalitet koda.
 Međutim, neka upozorenja ne treba usvojiti ili uopšte razmatrati. Nekada se te predložene izmene ne uklapaju u stil kodiranja koji smo koristili, nekada moze doći do narušavanja čitljivosti pa čak i do kolizija.
@@ -114,7 +114,9 @@ Kompletan rezultat nalazi se u fajlu cppcheck-output.txt, a u ovom izveštaju iz
     soket->flush();
     ^
 
-Komentar: U analizi se javlja nekoliko upozorenja tipa nullPointerRedundantCheck u kojima se prijavljuje da može doći do pozivanja funkcije nad pokazivačem koji ima null vrednost.
+**Komentar:**
+
+U analizi se javlja nekoliko upozorenja tipa nullPointerRedundantCheck u kojima se prijavljuje da može doći do pozivanja funkcije nad pokazivačem koji ima null vrednost.
 Ukoliko se pogleda baš ovaj primer u server.cpp fajlu, može se primetiti da su autori projekta proverili da li soket ima vrednost pre nego što su ga koristili, ali su van te provere ostavili njegovo pražnjenje i zato dolazi do ovog upozorenja. Rešenje može biti dodatni if ili premeštanje linije u blok koda u kom smo sigurni da pokazivač ima svoju vrednost.
 
 
@@ -122,23 +124,34 @@ Ukoliko se pogleda baš ovaj primer u server.cpp fajlu, može se primetiti da su
 > 16-battleships/Server/source/server.cpp:21:56: note: Assignment 'soket=m_server->nextPendingConnection()', assigned value is 0
     QTcpSocket* soket = m_server->nextPendingConnection();
     
-Komentar: Alat upozorava da je vrednost pokazivača prilikom inicijalizacije jednaka nuli. Autori su svakako pre korišćenja proverili vrednost pokazivača.
+**Komentar:** 
+
+Alat upozorava da je vrednost pokazivača prilikom inicijalizacije jednaka nuli. Autori su svakako pre korišćenja proverili vrednost pokazivača.
 
 
 > 16-battleships/battleships/source/Brod.cpp:5:7: warning: Member variable 'Brod::m_postavljen' is not initialized in the constructor. [uninitMemberVar]
 Brod::Brod(int broj, QPair<int, int> poc,QPair<int,int> kraj)
 
-Komentar: Alat upozorava da odredjena promenljiva nije inicijlizovana prilikom kreiranja klase kojoj pripada. Ukoliko postoji neka podrazumevana ili neutralna vrednost za ovu promenljivu može se iskoristiti da se izbegne ovo upozorenje, ali to često nije slučaj.
+**Komentar:**
+
+Alat upozorava da odredjena promenljiva nije inicijlizovana prilikom kreiranja klase kojoj pripada. Ukoliko postoji neka podrazumevana ili neutralna vrednost za ovu promenljivu može se iskoristiti da se izbegne ovo upozorenje, ali to često nije slučaj.
 
 
 > 16-battleships/battleships/source/Brod.cpp:25:5: performance: Variable 'm_pozPocetak' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
     m_pozPocetak = brod.m_pozPocetak;
     
-Komentar: Alat predlaže, zbog boljih performansi, da prilikom kreiranja navedene klase koristi lista inicijalizacije, umesto inicijalizovanja unutar tela konstrukta. Razlog za to je što navedenu promenljivu verovatno prepoznaje kao konstantnu vrednost.
+**Komentar:**
+
+Alat predlaže, zbog boljih performansi, da prilikom kreiranja navedene klase koristi lista inicijalizacije, umesto inicijalizovanja unutar tela konstrukta. Razlog za to je što navedenu promenljivu verovatno prepoznaje kao konstantnu vrednost.
 
 
 Ostatak analize se uglavnom odnosi na situacije u kojima promenljiva moze biti deklarisana kao konstanta ili kada se neka funkcija/promenljiva naprave a ne koriste se nigde u kodu.
 
+
+***Zaključak:***
+
+Na osnovu analize, stiče se utisak da autori nisu oprezno koristili pokazivače ali to nije potpuno tačno. U kodu postoje provere pokazivača pre njihovog korišćenja i preduzimanja akcija zbog kojih su suštinski i napravljeni, a propusti su uglavnom bili to što su završne akcije nad pokazivačima (pražnjenje, oslobadjanje i slično) van bloka koda u kom smo sigurni da pokazivač ima valjanu vrednost. Opisani problem se može jednostavno rešiti.
+Pored toga, postoji prostor za poboljšanje čitljivosti koda, kao i performansi ukoliko autor proceni da su dobijeni predlozi iz analize izvodljivi.
 
 
 ## 3. Flawfinder
