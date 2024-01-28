@@ -206,3 +206,74 @@ U ovom projektu se ovo upozorenje najčešće javlja.
 Može se uočiti da se javlju tri različita upozorenja u samom programu, jedno od njih dominantno. Propusta ima i po oceni značajnosti postoji samo jedno upozorenje nivoa 3.
 Treba više pažnje obratiti prilikom rada sa baferom i otvaranja datoteka kako bi se izbegle greške i sačuvale poverljive informacije(ukoliko autor proceni da uopšte takve informacije postoje u ovom projektu).
 Uglavnom se sva upozorenja mogu rešiti odgovarajućim (dodatnim) proverama pre preduzimanja samih akcija.
+
+
+
+
+
+## 4. Valgrind
+
+**Valgrind** je platforma otvorenog koda za kreiranje alata sposobnih za naprednu dinamičku analizu mašinskog koda. Valgrind obuhvata nekoliko alata od kojih je svaki specijalizovan za detektovanje određenog problema.
+Neki od najpoznatijih su:
+* Memcheck (koristi se za detektovanje memorijskih grešaka)
+* Massif (koristi se za praćenje rada dinamičke memorije)
+* Callgrind (koristi se za profajliranje funkcija)
+* Helgrind i DRD (koristi se za otkrivanje grešaka u radu sa nitima)
+
+Da bi se alati mogli koristiti, za početak je potrebno da se pokrene instalacija:
+```
+sudo apt-get install valgrind
+```
+
+
+
+### 4.1. Memcheck
+**Memcheck** jeste alat koji se koristi za otkrivanje memorijskih grešaka i sprovođenja analize nad mašinskim kodom. Prilikom korišćenja Valgrind-a, ovaj alat se podrazumevano poziva. 
+Koristi se za detektovanje više vrsta problema:
+* curenje memorije
+* pristupanje oslobođenoj memoriji
+* pristupanje ili upisivanje vrednosti van opsega
+* Neispravno oslobadjanje memorije na hipu
+
+Što se pokretanja tiče, potrebno je da se prvo odradi prevodjenje programa u debug režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takodje postoji i mogućnost da se pokrene i preko komandne linije. 
+
+U ovom radu biće prikazana upotreba preko komandne linije sledećom komandom:
+
+```
+valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes --log-file="report-memcheck.txt" ./battleships
+```
+
+Od dodatnih opcija imamo:
+* *--show-leak-kinds=all* (za prikaz svih vrsta curenja memorije u programu)
+* *--leak-check=full* (dobijaju se detalji za svaki definitivno izgubljen ili eventualno izgubljen blok, uključujući i mesto alociranja tog bloka)
+* *--track-origins=yes* (opcija koja nam olakšava lociranja dela koda u kom je došlo do propusta, takodje i usporava rad alata)
+* *--log-file="report-memcheck.txt"*
+
+Sažeti prikaz analize u kom možemo videti ukupnu količinu definitivno izgubljene memorije, indirektno izgubljene memorije, potencijalno izgubljene memorije i memorije kojoj još uvek možemo pristupiti:
+
+<pre>
+==3431== LEAK SUMMARY:
+==3431==    definitely lost: 2,560 bytes in 4 blocks
+==3431==    indirectly lost: 14,827 bytes in 622 blocks
+==3431==      possibly lost: 10,267 bytes in 143 blocks
+==3431==    still reachable: 3,181,587 bytes in 23,855 blocks
+==3431==                       of which reachable via heuristic:
+==3431==                         length64           : 19,504 bytes in 262 blocks
+==3431==                         newarray           : 2,352 bytes in 67 blocks
+==3431==         suppressed: 0 bytes in 0 blocks
+</pre>
+
+
+Kompletan rezultat nalazi se u fajlu report-memcheck.txt.
+
+***Zaključak:***
+
+Može se primetiti da postoji puna slučajeva curenja memorije. 
+
+Ispitivanjem steka poziva, u velikoj većini prijavljenih slučajeva primećujemo različite Qt funkcije koje (uglavnom preko funkcije strdup()) alociraju memoriju na hipu.
+
+U klasama uglavnom postoje destruktori(npr. Destruktore nemaju klase Tajmer, Sudija...), ali negde su postavljeni da samo budu podrazumevani što nije dovoljno dobar način za stvarno pražnjenje hipa od dinamički alociranih objekata te klase. Od te tačke bi se moglo krenuti sa sanacijom ovog problema. 
+
+Takodje, u nekim situacijama se mogu koristiti i pametni pokazivači(unique_ptr , shared_ptr) koji nas oslobadjaju brige o njihovom oslobadjanju.
+
+Provereni su i načini oslobadjanja vektora. Tamo gde ih ima, oslobodjeni su na pravi način(nije korišćenja funkcija clear(), već funkcija delete pojedinačnih elemenata).
