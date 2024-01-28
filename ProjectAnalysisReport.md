@@ -138,3 +138,58 @@ Komentar: Alat predlaže, zbog boljih performansi, da prilikom kreiranja naveden
 
 
 Ostatak analize se uglavnom odnosi na situacije u kojima promenljiva moze biti deklarisana kao konstanta ili kada se neka funkcija/promenljiva naprave a ne koriste se nigde u kodu.
+
+
+
+## 3. Flawfinder
+
+**Flawfinder** jeste alat koji služi za pregledanje i prijavljivanje sigurnosnih propusta u programu koji je napisan u C ili C++ programskom jeziku. Poseduje odredjeni skup pravila koji koristi prilikom traženja potencijalno nebezbednih mesta unutar programa. Kao izlaz, dobija se izveštaj u kom svaka od prijavljenih grešaka ima svoju ocenu značajnosti(nalazi se u uglastim zagradama).
+
+Za instalaciju ovog alata potrebno je prvo u terminalu pokrenuti sledeću komandu:
+```
+sudo apt-get install flawfinder
+```
+
+Prilikom pokretanja analize, mogu se dodati i neke opcije kojima možemo preciznije da usmerimo analizu ili koje nam mogu pomoći za kasnije tumačenje izveštaja koji se dobije. Neke od njih su:
+
+* *--followdotdir* (prilikom analiziranja ulazi i u direktorijume koji počinju sa tačkom, koje inače ignoriše)
+* *--minlevel=X* (odredjuje se minimalna ocena značajnosti za greške koje se prikazuju u izveštaju)
+* *--neverignore* (nijedan bezbednosni propust se ne ignoriše)
+* *--html* (izveštaj će biti u html formatu)
+* *--immediate* (ispis se desi čim se propusti pronadju, ne čeka se kraj analize)
+ 
+
+
+Komandu primenjujem nad svim fajlovima i ona izleda ovako:
+```
+flawfinder --html 16-battleship > flawfinder_result.html 16-battleship
+```
+
+Kompletan rezultat nalazi se u fajlu flawfinder_result.html. 
+Jako korisna stvar je to što za svaku od prijavljenih grešaka možemo pročitati detaljnije informacije samo jednim klikom na kod greške u samom izveštaju.
+
+**Komentar:**
+* <ins>*Upozorenje CWE-27:*
+
+Upozorava da program koristi neispravan ili rizican kriptografski algoritam ili protokol, što može dovesti do otkrivanja osetljivih informacija, modifikovanja podataka na neočekivane načine ili neke druge neželjene akcije. 
+
+U ovom konkretnom slučaju, ovo upozorenje ima ocenu važnosti tri, odnosi se na funkciju srand u fajlu partija.cpp i predlaže se da se pronadje nova bezbednija funkcija koja će vraćati nasumične vrednosti. Kao jedna od bezbednijih alternativa navodi se funckija rand_s.
+
+* <ins>*Upozorenje CWE-362:*
+
+Upozorava da u programu postoji sekvenca koda koja bi trebala da ima poseban eksluzivni pristup deljenim resursima, ali da to nije slučaj. Postoji opasnost da se paralelnim izvršavanjem nekog drugog, mozda namenski ubačenog, koda izmeni i zloupotrebi željeno ponašanje kako bi se došlo do poverljivih datoteka ili informacija.
+
+U projektu koji analiziramo, dobili smo tri ovakva upozorenja i njihova ocena važnosti je dva. Sve se odnose na otvaranje fajla pomoću funkcije open i predlog za rešavanje ovog potencijalnog bezbednosnog problema jeste da se uvedu dodatne provere pre samog otvaranja fajla kojim bi se proverilo da li izabrane datoteke zaista smeju biti otvorene.
+
+* <ins>*Upozorenje CWE-119/CWE-120:*
+
+Upozorenja se odnose na rad sa baferom bez proveravanja njegove veličine i skreću pažnju autoru projekta da je neophodno da na tim mestima postoje odredjene provere kako ne bi došlo do čitanja ili pisanja van opsega statički alociranog bafera. Ocena važnosti ovog upozorenja jesta dva.
+
+U ovom projektu se ovo upozorenje najčešće javlja.
+
+
+***Zaključak:***
+
+Može se uočiti da se javlju tri različita upozorenja u samom programu, jedno od njih dominantno. Propusta ima i po oceni značajnosti postoji samo jedno upozorenje nivoa 3.
+Treba više pažnje obratiti prilikom rada sa baferom i otvaranja datoteka kako bi se izbegle greške i sačuvale poverljive informacije(ukoliko autor proceni da uopšte takve informacije postoje u ovom projektu).
+Uglavnom se sva upozorenja mogu rešiti odgovarajućim (dodatnim) proverama pre preduzimanja samih akcija.
