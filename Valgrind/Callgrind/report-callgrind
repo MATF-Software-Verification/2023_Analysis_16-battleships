@@ -1,0 +1,17 @@
+==4745== Callgrind, a call-graph generating cache profiler
+==4745== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==4745== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==4745== Command: ./battleships
+==4745== Parent PID: 1848
+==4745== 
+==4745== For interactive control, run 'callgrind_control -h'.
+--4745-- WARNING: unhandled amd64-linux syscall: 315
+--4745-- You may be able to write your own handler.
+--4745-- Read the file README_MISSING_SYSCALL_OR_IOCTL.
+--4745-- Nevertheless we consider this a bug.  Please report
+--4745-- it at http://valgrind.org/support/bug_reports.html.
+==4745== 
+==4745== Events    : Ir
+==4745== Collected : 870389528
+==4745== 
+==4745== I   refs:      870,389,528
