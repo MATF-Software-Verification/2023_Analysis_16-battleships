@@ -95,7 +95,7 @@ Za instalaciju ovog alata potrebno je prvo u terminalu pokrenuti sledeću komand
 sudo apt-get install cppcheck
 ```
 
-Prilikom pokretanja analize, dodaćemo i odredjene opcije koje će doprineti samoj analizi:
+Prilikom pokretanja analize, dodaćemo i određene opcije koje će doprineti samoj analizi:
 * *--enable=all* (uključuje sve dostupne provere koje alat može da izvrši)
 * *--inconcuslive* (alat će prijaviti i neodlučne greške tj greške koje alat nije mogao da kategorijuzuje kao greške ili upozorenja pa ih u redovnim okolnostima ne bi uključio u izveštaj)
 * *--suppress=missingInclude* (Ignorisaćemo greške koje dobijamo iz headera. Razlog za to je što alat može imati problem sa proveravanjem biblioteka(pogotovo sistemskih) koje se uključuju u header delu nekog fajla.)
@@ -108,7 +108,7 @@ cppcheck --enable=all --inconclusive --suppress=missingInclude --quiet --output-
 ```
 
 
-Kompletan rezultat nalazi se u fajlu cppcheck-output.txt, a u ovom izveštaju izdvojiću par zanimljivih:
+Kompletan rezultat nalazi se u fajlu [*cppcheck-output.txt*](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/CppCheck/cppcheck-output.txt), a u ovom izveštaju izdvojiću par zanimljivih:
 
 > 16-battleships/Server/source/server.cpp:41:5: warning:inconclusive: Either the condition 'if(soket)' is redundant or there is possible null pointer dereference: soket. [nullPointerRedundantCheck]
     soket->flush();
@@ -134,7 +134,7 @@ Brod::Brod(int broj, QPair<int, int> poc,QPair<int,int> kraj)
 
 **Komentar:**
 
-Alat upozorava da odredjena promenljiva nije inicijlizovana prilikom kreiranja klase kojoj pripada. Ukoliko postoji neka podrazumevana ili neutralna vrednost za ovu promenljivu može se iskoristiti da se izbegne ovo upozorenje, ali to često nije slučaj.
+Alat upozorava da određena promenljiva nije inicijlizovana prilikom kreiranja klase kojoj pripada. Ukoliko postoji neka podrazumevana ili neutralna vrednost za ovu promenljivu može se iskoristiti da se izbegne ovo upozorenje, ali to često nije slučaj.
 
 
 > 16-battleships/battleships/source/Brod.cpp:25:5: performance: Variable 'm_pozPocetak' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
@@ -150,13 +150,13 @@ Ostatak analize se uglavnom odnosi na situacije u kojima promenljiva moze biti d
 
 ***Zaključak:***
 
-Na osnovu analize, stiče se utisak da autori nisu oprezno koristili pokazivače ali to nije potpuno tačno. U kodu postoje provere pokazivača pre njihovog korišćenja i preduzimanja akcija zbog kojih su suštinski i napravljeni, a propusti su uglavnom bili to što su završne akcije nad pokazivačima (pražnjenje, oslobadjanje i slično) van bloka koda u kom smo sigurni da pokazivač ima valjanu vrednost. Opisani problem se može jednostavno rešiti.
+Na osnovu analize, stiče se utisak da autori nisu oprezno koristili pokazivače ali to nije potpuno tačno. U kodu postoje provere pokazivača pre njihovog korišćenja i preduzimanja akcija zbog kojih su suštinski i napravljeni, a propusti su uglavnom bili to što su završne akcije nad pokazivačima (pražnjenje, oslobađanje i slično) van bloka koda u kom smo sigurni da pokazivač ima valjanu vrednost. Opisani problem se može jednostavno rešiti.
 Pored toga, postoji prostor za poboljšanje čitljivosti koda, kao i performansi ukoliko autor proceni da su dobijeni predlozi iz analize izvodljivi.
 
 
 ## 3. Flawfinder
 
-**Flawfinder** jeste alat koji služi za pregledanje i prijavljivanje sigurnosnih propusta u programu koji je napisan u C ili C++ programskom jeziku. Poseduje odredjeni skup pravila koji koristi prilikom traženja potencijalno nebezbednih mesta unutar programa. Kao izlaz, dobija se izveštaj u kom svaka od prijavljenih grešaka ima svoju ocenu značajnosti(nalazi se u uglastim zagradama).
+**Flawfinder** jeste alat koji služi za pregledanje i prijavljivanje sigurnosnih propusta u programu koji je napisan u C ili C++ programskom jeziku. Poseduje određeni skup pravila koji koristi prilikom traženja potencijalno nebezbednih mesta unutar programa. Kao izlaz, dobija se izveštaj u kom svaka od prijavljenih grešaka ima svoju ocenu značajnosti(nalazi se u uglastim zagradama).
 
 Za instalaciju ovog alata potrebno je prvo u terminalu pokrenuti sledeću komandu:
 ```
@@ -166,10 +166,10 @@ sudo apt-get install flawfinder
 Prilikom pokretanja analize, mogu se dodati i neke opcije kojima možemo preciznije da usmerimo analizu ili koje nam mogu pomoći za kasnije tumačenje izveštaja koji se dobije. Neke od njih su:
 
 * *--followdotdir* (prilikom analiziranja ulazi i u direktorijume koji počinju sa tačkom, koje inače ignoriše)
-* *--minlevel=X* (odredjuje se minimalna ocena značajnosti za greške koje se prikazuju u izveštaju)
+* *--minlevel=X* (određuje se minimalna ocena značajnosti za greške koje se prikazuju u izveštaju)
 * *--neverignore* (nijedan bezbednosni propust se ne ignoriše)
 * *--html* (izveštaj će biti u html formatu)
-* *--immediate* (ispis se desi čim se propusti pronadju, ne čeka se kraj analize)
+* *--immediate* (ispis se desi čim se propusti pronađu, ne čeka se kraj analize)
  
 
 
@@ -178,15 +178,15 @@ Komandu primenjujem nad svim fajlovima i ona izleda ovako:
 flawfinder --html 16-battleship > flawfinder_result.html 16-battleship
 ```
 
-Kompletan rezultat nalazi se u fajlu flawfinder_result.html. 
+Kompletan rezultat nalazi se u fajlu [*flawfinder_result.html*](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Flawfinder/flawfinder_result.html). 
 Jako korisna stvar je to što za svaku od prijavljenih grešaka možemo pročitati detaljnije informacije samo jednim klikom na kod greške u samom izveštaju.
 
 **Komentar:**
-* <ins>*Upozorenje CWE-27:*
+* <ins>*Upozorenje CWE-327:*
 
 Upozorava da program koristi neispravan ili rizican kriptografski algoritam ili protokol, što može dovesti do otkrivanja osetljivih informacija, modifikovanja podataka na neočekivane načine ili neke druge neželjene akcije. 
 
-U ovom konkretnom slučaju, ovo upozorenje ima ocenu važnosti tri, odnosi se na funkciju srand u fajlu partija.cpp i predlaže se da se pronadje nova bezbednija funkcija koja će vraćati nasumične vrednosti. Kao jedna od bezbednijih alternativa navodi se funckija rand_s.
+U ovom konkretnom slučaju, ovo upozorenje ima ocenu važnosti tri, odnosi se na funkciju srand u fajlu partija.cpp i predlaže se da se pronađe nova bezbednija funkcija koja će vraćati nasumične vrednosti. Kao jedna od bezbednijih alternativa navodi se funckija rand_s.
 
 * <ins>*Upozorenje CWE-362:*
 
@@ -196,7 +196,7 @@ U projektu koji analiziramo, dobili smo tri ovakva upozorenja i njihova ocena va
 
 * <ins>*Upozorenje CWE-119/CWE-120:*
 
-Upozorenja se odnose na rad sa baferom bez proveravanja njegove veličine i skreću pažnju autoru projekta da je neophodno da na tim mestima postoje odredjene provere kako ne bi došlo do čitanja ili pisanja van opsega statički alociranog bafera. Ocena važnosti ovog upozorenja jesta dva.
+Upozorenja se odnose na rad sa baferom bez proveravanja njegove veličine i skreću pažnju autoru projekta da je neophodno da na tim mestima postoje određene provere kako ne bi došlo do čitanja ili pisanja van opsega statički alociranog bafera. Ocena važnosti ovog upozorenja jesta dva.
 
 U ovom projektu se ovo upozorenje najčešće javlja.
 
@@ -233,9 +233,9 @@ Koristi se za detektovanje više vrsta problema:
 * curenje memorije
 * pristupanje oslobođenoj memoriji
 * pristupanje ili upisivanje vrednosti van opsega
-* Neispravno oslobadjanje memorije na hipu
+* Neispravno oslobađanje memorije na hipu
 
-Što se pokretanja tiče, potrebno je da se prvo odradi prevodjenje programa u debug režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takodje postoji i mogućnost da se pokrene i preko komandne linije. 
+Što se pokretanja tiče, potrebno je da se prvo odradi prevođenje programa u debug režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takođe postoji i mogućnost da se pokrene i preko komandne linije. 
 
 U ovom radu biće prikazana upotreba preko komandne linije sledećom komandom:
 
@@ -246,7 +246,7 @@ valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes --log-file=
 Od dodatnih opcija imamo:
 * *--show-leak-kinds=all* (za prikaz svih vrsta curenja memorije u programu)
 * *--leak-check=full* (dobijaju se detalji za svaki definitivno izgubljen ili eventualno izgubljen blok, uključujući i mesto alociranja tog bloka)
-* *--track-origins=yes* (opcija koja nam olakšava lociranja dela koda u kom je došlo do propusta, takodje i usporava rad alata)
+* *--track-origins=yes* (opcija koja nam olakšava lociranja dela koda u kom je došlo do propusta, takođe i usporava rad alata)
 * *--log-file="report-memcheck.txt"*
 
 Sažeti prikaz analize u kom možemo videti ukupnu količinu definitivno izgubljene memorije, indirektno izgubljene memorije, potencijalno izgubljene memorije i memorije kojoj još uvek možemo pristupiti:
@@ -264,7 +264,7 @@ Sažeti prikaz analize u kom možemo videti ukupnu količinu definitivno izgublj
 </pre>
 
 
-Kompletan rezultat nalazi se u fajlu report-memcheck.txt.
+Kompletan rezultat nalazi se u fajlu [*report-memcheck.txt*](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Memcheck/report-memcheck.txt).
 
 ***Zaključak:***
 
@@ -274,9 +274,9 @@ Ispitivanjem steka poziva, u velikoj većini prijavljenih slučajeva primećujem
 
 U klasama uglavnom postoje destruktori(npr. Destruktore nemaju klase Tajmer, Sudija...), ali negde su postavljeni da samo budu podrazumevani što nije dovoljno dobar način za stvarno pražnjenje hipa od dinamički alociranih objekata te klase. Od te tačke bi se moglo krenuti sa sanacijom ovog problema. 
 
-Takodje, u nekim situacijama se mogu koristiti i pametni pokazivači(unique_ptr , shared_ptr) koji nas oslobadjaju brige o njihovom oslobadjanju.
+Takođe, u nekim situacijama se mogu koristiti i pametni pokazivači(unique_ptr , shared_ptr) koji nas oslobađaju brige o njihovom oslobađanju.
 
-Provereni su i načini oslobadjanja vektora. Tamo gde ih ima, oslobodjeni su na pravi način(nije korišćenja funkcija clear(), već funkcija delete pojedinačnih elemenata).
+Provereni su i načini oslobađanja vektora. Tamo gde ih ima, oslobođeni su na pravi način(nije korišćenja funkcija clear(), već funkcija delete pojedinačnih elemenata).
 
 
 
@@ -288,7 +288,7 @@ Provereni su i načini oslobadjanja vektora. Tamo gde ih ima, oslobodjeni su na 
 * odnosa između pozivajućih i pozvanih funkcija
 * informacije o keširanju
 
-Što se pokretanja tiče, potrebno je da se prvo odradi prevodjenje programa u Profile režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takodje postoji i mogućnost da se pokrene i preko komandne linije. 
+Što se pokretanja tiče, potrebno je da se prvo odradi prevođenje programa u Profile režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takođe postoji i mogućnost da se pokrene i preko komandne linije. 
 
 U ovom radu biće prikazana upotreba preko komandne linije sledećom komandom:
 
@@ -296,7 +296,7 @@ U ovom radu biće prikazana upotreba preko komandne linije sledećom komandom:
 valgrind --tool=callgrind --log-file="report-callgrind" ./battleship
 ```
 
-Dobijeni izveštaj se nalazi u fajlu report-callgrind, a za njegovu grafičku reprezentaciju koristi se KCachegrind:
+Dobijeni izveštaj se nalazi u fajlu [*callgrind.out.4745*](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind.out.4745)(4745 predstavlja PID tj ID procesa) i nije previše čitljiv pa zato za njegovu grafičku reprezentaciju koristim alat KCachegrind:
 
 ![callgrind_calleeMap](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_calleeMap.png "KCachegrind Callee Map")
 
@@ -306,7 +306,7 @@ Ukoliko želimo da saznamo koja funkcija se najviše puta pozivala, to možemo v
 ![callgrind_called](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_called.png "KCachegrind stek funkcija")
 
 
-Takodje, za selektovanu funkciju sa desne strane možemo dobiti i informacije o svim njenim pozivaocima biranjem taba All Callers:
+Takođe, za selektovanu funkciju sa desne strane možemo dobiti i informacije o svim njenim pozivaocima biranjem taba All Callers:
 
 ![callgrind_allCallers](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_allCallers.png  "KCachegrind Svi pozivaoci izabrane funckije")
 
