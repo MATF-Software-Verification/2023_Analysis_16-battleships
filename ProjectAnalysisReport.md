@@ -154,6 +154,7 @@ Na osnovu analize, stiče se utisak da autori nisu oprezno koristili pokazivače
 Pored toga, postoji prostor za poboljšanje čitljivosti koda, kao i performansi ukoliko autor proceni da su dobijeni predlozi iz analize izvodljivi.
 
 
+
 ## 3. Flawfinder
 
 **Flawfinder** jeste alat koji služi za pregledanje i prijavljivanje sigurnosnih propusta u programu koji je napisan u C ili C++ programskom jeziku. Poseduje određeni skup pravila koji koristi prilikom traženja potencijalno nebezbednih mesta unutar programa. Kao izlaz, dobija se izveštaj u kom svaka od prijavljenih grešaka ima svoju ocenu značajnosti(nalazi se u uglastim zagradama).
@@ -206,8 +207,6 @@ U ovom projektu se ovo upozorenje najčešće javlja.
 Može se uočiti da se javlju tri različita upozorenja u samom programu, jedno od njih dominantno. Propusta ima i po oceni značajnosti postoji samo jedno upozorenje nivoa 3.
 Treba više pažnje obratiti prilikom rada sa baferom i otvaranja datoteka kako bi se izbegle greške i sačuvale poverljive informacije(ukoliko autor proceni da uopšte takve informacije postoje u ovom projektu).
 Uglavnom se sva upozorenja mogu rešiti odgovarajućim (dodatnim) proverama pre preduzimanja samih akcija.
-
-
 
 
 
@@ -277,7 +276,6 @@ U klasama uglavnom postoje destruktori(npr. Destruktore nemaju klase Tajmer, Sud
 Takođe, u nekim situacijama se mogu koristiti i pametni pokazivači(unique_ptr , shared_ptr) koji nas oslobađaju brige o njihovom oslobađanju.
 
 Provereni su i načini oslobađanja vektora. Tamo gde ih ima, oslobođeni su na pravi način(nije korišćenja funkcija clear(), već funkcija delete pojedinačnih elemenata).
-
 
 
 
