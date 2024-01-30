@@ -277,3 +277,43 @@ U klasama uglavnom postoje destruktori(npr. Destruktore nemaju klase Tajmer, Sud
 Takodje, u nekim situacijama se mogu koristiti i pametni pokazivači(unique_ptr , shared_ptr) koji nas oslobadjaju brige o njihovom oslobadjanju.
 
 Provereni su i načini oslobadjanja vektora. Tamo gde ih ima, oslobodjeni su na pravi način(nije korišćenja funkcija clear(), već funkcija delete pojedinačnih elemenata).
+
+
+
+
+### 4.2. Callgrind
+**Callgrind** je još jedan Valgrind alat koji u vidu grafa generiše listu poziva funkcija korisničkog programa i računa cene funkcija. Pri osnovnim podešavanjima sakupljeni podaci sastoje se od:
+* broja izvršenih instrukcija
+* odnosa izvršenih instrukcija sa odgovarajućom linijom u izvršnom kodu
+* odnosa između pozivajućih i pozvanih funkcija
+* informacije o keširanju
+
+Što se pokretanja tiče, potrebno je da se prvo odradi prevodjenje programa u Profile režimu, a onda možemo birati kako ćemo tačno pokrenuti alat zato što postoji integracija i sa QtCreatorom a takodje postoji i mogućnost da se pokrene i preko komandne linije. 
+
+U ovom radu biće prikazana upotreba preko komandne linije sledećom komandom:
+
+```
+valgrind --tool=callgrind --log-file="report-callgrind" ./battleship
+```
+
+Dobijeni izveštaj se nalazi u fajlu report-callgrind, a za njegovu grafičku reprezentaciju koristi se KCachegrind:
+
+![callgrind_calleeMap](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_calleeMap.png "KCachegrind Callee Map")
+
+
+Ukoliko želimo da saznamo koja funkcija se najviše puta pozivala, to možemo videti u koloni *Called* na sledećoj slici:
+
+![callgrind_called](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_called.png "KCachegrind stek funkcija")
+
+
+Takodje, za selektovanu funkciju sa desne strane možemo dobiti i informacije o svim njenim pozivaocima biranjem taba All Callers:
+
+![callgrind_allCallers](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Callgrind/callgrind_allCallers.png  "KCachegrind Svi pozivaoci izabrane funckije")
+
+
+***Zaključak:***
+
+Cilj pokretanja ovog alata jeste pronalaženje funkcija koje se najčešće pozivaju ili funkcija koja procentualno najviše resursa troše. Sledeći korak bi onda bila optimizacija takvih funckija tj. efikasnija implementacija što bi unapredilo performanse samog programa.
+
+U ovom projektu možemo primetiti da su takve funckije Qt funkcije na koje ne možemo tako lako da utičemo pa ova analiza nije previše pomogla u smislu potencijalne optimizacije.
+Uprkos tome, ovde možemo videti dosta korisnih informacija vezanih za sve funkcije koje učestvuju u radu analiziranog projekta.
