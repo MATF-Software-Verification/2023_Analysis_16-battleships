@@ -14,6 +14,7 @@
 * Flawfinder
 * Memcheck
 * Callgrind
+* Massif
 
 Za alate CppCheck, Flawfinder, Memcheck i Callgrind napisane su skripte za njihovo pokretanje i one se nalaze u okviru foldera navednih alata.
 
