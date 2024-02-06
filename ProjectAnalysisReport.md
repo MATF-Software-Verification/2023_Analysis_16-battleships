@@ -315,3 +315,67 @@ Cilj pokretanja ovog alata jeste pronalaženje funkcija koje se najčešće pozi
 
 U ovom projektu možemo primetiti da su takve funckije Qt funkcije na koje ne možemo tako lako da utičemo pa ova analiza nije previše pomogla u smislu potencijalne optimizacije.
 Uprkos tome, ovde možemo videti dosta korisnih informacija vezanih za sve funkcije koje učestvuju u radu analiziranog projekta.
+
+
+
+### 4.3. Massif
+
+**Massif** je profajer hip memorije. Beleži iskorišćen prostor i dodatne bajtove koji se zauzimaju radi poravnanja i vodi evidenciju o bajtovima u upotrebi. 
+Profajliranje hip memorije nam može pomoći da eventalno smanjimo korišćenu memoriju i da otkrijemo neka curenja memorije koja nismo mogli da prepoznamo pokretanjem alata Memcheck. Takodje, massif nam može reći i koliko memorije na hipu program koristi i tačnu liniju koda koja je zaslužna za njegovu alokaciju.
+
+
+Za pokretanje alata potrebno je da se prvo odradi prevođenje programa u debug režimu, a onda, u komandnoj liniji, pokrecemo sledeću naredbu:
+
+```
+valgrind --tool=massif  ./battleship
+```
+
+Ovime se dobija izlaz koji je nečitljiv. Rešenje ovog problema jeste sledeća komanda kojom se izlaz preusmerava pomoću ms_print-a i dobijamo sledeći graf:
+
+```
+ms_print massif.out.4344 > massif.txt
+```
+
+
+![massif_graf](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Massif/massif_graf.png "Massif graf")
+
+<pre>
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 61  3,528,270,151      323,215,208      322,034,396     1,180,812            0
+</pre>
+
+
+**Zaključak:** massif je 69 puta napravio presek stanja, od kojih je posebno izdvojio neke, tako da se jasno vidi da se pik u utrošku memorije dostiže u 61. preseku i iznosi 308.8MB. Podaci o ostalim presecima se mogu naći u priloženom fajlu (massif.out.4344). Na osnovu njega se može zaključiti da program troši sve veću količinu memorije kako vreme korišćenja prolazi, nema nekih neobičnih promena, poput skokova ili padova, već se postepeno dostiže jedna vrednost i oko nje oscilira.
+
+
+
+Massif takodje omogućava i merenje zauzeća memorije na steku što se postiže sledećom komandom:
+
+```
+valgrind --tool=massif --stack=yes ./battleship
+```
+
+Dobijeni graf izgleda ovako:
+
+![massif_graf_saStekom](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Massif/massif_graf_saStekom.png "Massif graf računajući i memoriju na steku")
+
+
+<pre>
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 76  4,291,701,050      472,036,728      470,682,434     1,341,486       12,808
+</pre>
+
+**Zaključak:** massif je ovog puta napravio 82 preseka stanja, od kojih je posebno izdvojio neke, tako da se jasno vidi da se pik u utrošku memorije dostiže u 76. preseku i sada iznosi 454.4MB. Podaci o ostalim presecima se mogu naći u priloženom fajlu(massif.out.2674). 
+
+
+
+Takođe, možemo ove rezultate pokazati i vizuelno pomoću alata Massif Visualizer-a.
+Na sledećoj slici vidimo vizuelni prikaz rezultata koji je dobijen pokretanjem prve komande.
+
+
+![massif_visualizer](https://github.com/MATF-Software-Verification/2023_Analysis_16-battleships/blob/main/Valgrind/Massif/massif_visualizer.png "Massif graf prikazan pomoću Massif Visualizer-a")
+
